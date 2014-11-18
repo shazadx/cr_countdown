@@ -1,0 +1,7 @@
+name = "Comic Relief Countdown"
+description = "Set Timers to display given content"
+core = 7.x
+
+package = Custom
+
+dependencies[] = "entity"
