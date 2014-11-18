@@ -29,6 +29,13 @@ function cr_countdown_schema() {
         'not null' => FALSE,
         'default' => NULL
       ),
+      'message' => array(
+        'description' => 'Countdown message.',
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+        'default' => NULL
+      ),
       'deadline' => array(
         'description' => 'Countdown deadline.',
         'type' => 'int',
@@ -51,10 +58,20 @@ function cr_download_entity_info() {
 
   $info['countdown'] = array(
     'label' => t('Countdown'),
+    'controller class' => 'CountdownController',
     'base table' => 'countdown',
     'entity keys' => array(
       'id' => 'id',
       'label' => 'name',
+    ),
+    'bundles' => array(
+      'postit'=> array(
+        'label' => 'Countdown',
+        'admin' => array(
+          'path' => 'admin/content/countdown',
+          'access arguments' => array('administer countdown'),
+        ),
+      ),
     ),
     'module' => 'cr_countdown',
   );
