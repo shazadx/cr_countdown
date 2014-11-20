@@ -1,1 +1,63 @@
 <?php
+
+
+
+function cr_countdown_field_display_node_alter(&$display, $context) {
+  if ($context['view_mode'] == 'countdown' && $context['field']['field_name'] == 'field_countdown_message') {
+    $display['label'] = 'hidden';
+    //dsm($context);
+  }
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function cr_countdown_theme($existing, $type, $theme, $path) {
+  //Add custom template for Countdown Node type with Entity View Mode of Countdown
+  $theme = array();
+  $theme['node__countdown__countdown'] = array(
+    'render element' => 'content',
+    'base hook' => 'node',
+    'template' => 'node--countdown--countdown',
+    'path' => drupal_get_path('module', 'cr_countdown') . '/templates',
+   );
+  return $theme;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Provide front-page feature and sub-feature view modes. Template suggestions
+ * are provided in example_preprocess_node().
+ */
+function cr_countdown_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['countdown'] = array(
+    'label' => t('Countdown'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function cr_countdown_preprocess_node(&$variables) {
+  // Provide template suggestions based on the view mode.
+  // Example 1: node__front_feature
+  // Example 2: node__article__front_feature
+  if (!empty($variables['view_mode'])) {
+    $variables['theme_hook_suggestions'][] = 'node__' . $variables['view_mode'];
+    $variables['theme_hook_suggestions'][] = 'node__' . $variables['type'] . '__' . $variables['view_mode'];
+  }
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function cr_countdown_preprocess_page(&$variables) {
+  // Provide template suggestions based on the node type.
+  // Example 1: page__node__article
+  if (!empty($variables['node']->type)) {
+    $variables['theme_hook_suggestions'][] = 'page__node__' . $variables['node']->type;
+  }
+}

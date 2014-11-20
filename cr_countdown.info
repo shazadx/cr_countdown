@@ -1,7 +1,5 @@
 name = "Comic Relief Countdown"
-description = "Set Timers to display given content"
+description = "Update Field Message based on countdown timer"
 core = 7.x
 
-package = Custom
-
-dependencies[] = "entity"
+package = Comic Relief
